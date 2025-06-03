@@ -1,5 +1,6 @@
 from mental_health_tracker.cli import cli
 import click
+import sys
 
 def user_management():
     while True:
@@ -75,28 +76,36 @@ def main_menu():
         pass  # Database might already be initialized
 
     while True:
-        print("\n📋 Main Menu")
-        print("1. Manage Users")
-        print("2. Track Moods")
-        print("3. Track Activities")
-        print("4. View Complete History")
-        print("0. Exit")
-        choice = input("Enter your choice: ")
-        
-        if choice == "1":
-            user_management()
-        elif choice == "2":
-            mood_management()
-        elif choice == "3":
-            activity_management()
-        elif choice == "4":
-            email = input("Enter user email to view complete history: ")
-            cli.main(["view-history", "--email", email])
-        elif choice == "0":
-            print("\nThank you for using Mental Health Tracker! Take care! 🌈")
-            break
-        else:
-            print("Invalid choice!")
+        try:
+            print("\n📋 Main Menu")
+            print("1. Manage Users")
+            print("2. Track Moods")
+            print("3. Track Activities")
+            print("4. View Complete History")
+            print("0. Exit")
+            sys.stdout.flush()  # Ensure output is displayed
+            choice = input("Enter your choice: ")
+            
+            if choice == "1":
+                user_management()
+            elif choice == "2":
+                mood_management()
+            elif choice == "3":
+                activity_management()
+            elif choice == "4":
+                email = input("Enter user email to view complete history: ")
+                cli.main(["view-history", "--email", email])
+            elif choice == "0":
+                print("\nThank you for using Mental Health Tracker! Take care! 🌈")
+                break
+            else:
+                print("Invalid choice!")
+        except Exception as e:
+            print(f"An error occurred: {str(e)}")
+            continue
 
 if __name__ == '__main__':
-    main_menu()
+    try:
+        main_menu()
+    except KeyboardInterrupt:
+        print("\nThank you for using Mental Health Tracker! Take care! 🌈")
