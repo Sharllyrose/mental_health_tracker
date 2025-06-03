@@ -1,6 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from .models import Base
+try:
+    from .models import Base
+except ImportError:
+    from models import Base
 
 # Create database engine
 DATABASE_URL = "sqlite:///mental_health.db"
